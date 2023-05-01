@@ -52,6 +52,13 @@ namespace FilmSystemMinimalApi
             })
             .WithName("GetWeatherForecast");
 
+            app.MapGet("api/person", async (DataContext context) =>
+            {
+                var personChoice = await context.Persons.ToListAsync();
+                return personChoice;
+            })
+            .WithName("GetPerson");
+
             app.Run();
         }
     }
