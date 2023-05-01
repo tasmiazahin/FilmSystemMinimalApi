@@ -79,6 +79,20 @@ namespace FilmSystemMinimalApi
             })
             .WithName("GetPersonChoice");
 
+            app.MapGet("api/personchoice/genre/{personid}", (int id) =>
+            {
+                PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
+               return  personchoiceRepo.GetGenreByPersonId(id).Select(pc=>pc.Genre.Title).Distinct();
+
+            }).WithName("GetGenreByPerdonId");
+
+            app.MapGet("api/personchoice/movie/{personid}", (int id) =>
+            {
+                PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
+                return personchoiceRepo.GetPersonChoiceByPersonId(id).Select(pc => pc.MovieLink).ToList();
+
+            }).WithName("GetMovieLinkByPerdonId");
+
             app.MapPost("/personChoice", (PersonChoice personChoice) =>
             {
                 DataContext dataContext = new DataContext();

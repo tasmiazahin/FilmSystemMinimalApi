@@ -9,6 +9,6 @@ namespace FilmSystemMinimalApi.Model
         public string? Title { get; set; }
         public string? Description { get; set; }
 
-        public List<PersonChoice> PersonChoices { get; set; }
+        //public List<PersonChoice> PersonChoices { get; set; }
     }
 }
