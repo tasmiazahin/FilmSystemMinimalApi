@@ -1,3 +1,6 @@
+using FilmSystemMinimalApi.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace FilmSystemMinimalApi
 {
     public class Program
@@ -5,6 +8,10 @@ namespace FilmSystemMinimalApi
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddDbContext<DataContext>(option => {
+                option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            });
 
             // Add services to the container.
             builder.Services.AddAuthorization();
