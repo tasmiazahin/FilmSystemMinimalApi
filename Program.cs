@@ -54,10 +54,24 @@ namespace FilmSystemMinimalApi
 
             app.MapGet("api/person", async (DataContext context) =>
             {
-                var personChoice = await context.Persons.ToListAsync();
-                return personChoice;
+                var person = await context.Persons.ToListAsync();
+                return person;
             })
             .WithName("GetPerson");
+
+            app.MapGet("api/genre", async (DataContext context) =>
+            {
+                var genre = await context.Genres.ToListAsync();
+                return genre;
+            })
+            .WithName("GetGenre");
+
+            app.MapGet("api/personchoice", async (DataContext context) =>
+            {
+                var personChoice = await context.PersonChoices.ToListAsync();
+                return personChoice;
+            })
+            .WithName("GetPersonChoice");
 
             app.Run();
         }
