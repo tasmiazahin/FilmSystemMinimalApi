@@ -1,4 +1,5 @@
 using FilmSystemMinimalApi.Data;
+using FilmSystemMinimalApi.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace FilmSystemMinimalApi
@@ -9,9 +10,10 @@ namespace FilmSystemMinimalApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            builder.Services.AddDbContext<DataContext>(option => {
-                option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-            });
+            //builder.Services.AddDbContext<DataContext>(option =>
+            //{
+            //    option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+            //});
 
             // Add services to the container.
             builder.Services.AddAuthorization();
@@ -35,8 +37,8 @@ namespace FilmSystemMinimalApi
 
             var summaries = new[]
             {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+            };
 
             app.MapGet("/weatherforecast", (HttpContext httpContext) =>
             {
@@ -52,26 +54,29 @@ namespace FilmSystemMinimalApi
             })
             .WithName("GetWeatherForecast");
 
-            app.MapGet("api/person", async (DataContext context) =>
+            app.MapGet("api/person", () =>
             {
-                var person = await context.Persons.ToListAsync();
-                return person;
+                //var person = await context.Persons.ToListAsync();
+                //return person;
+
+                PersonRepository personRepo = new PersonRepository(new DataContext());
+                return personRepo.GetAll();
             })
             .WithName("GetPerson");
 
-            app.MapGet("api/genre", async (DataContext context) =>
-            {
-                var genre = await context.Genres.ToListAsync();
-                return genre;
-            })
-            .WithName("GetGenre");
+            //app.MapGet("api/genre", async (DataContext context) =>
+            //{
+            //    var genre = await context.Genres.ToListAsync();
+            //    return genre;
+            //})
+            //.WithName("GetGenre");
 
-            app.MapGet("api/personchoice", async (DataContext context) =>
-            {
-                var personChoice = await context.PersonChoices.ToListAsync();
-                return personChoice;
-            })
-            .WithName("GetPersonChoice");
+            //app.MapGet("api/personchoice", async (DataContext context) =>
+            //{
+            //    var personChoice = await context.PersonChoices.ToListAsync();
+            //    return personChoice;
+            //})
+            //.WithName("GetPersonChoice");
 
             app.Run();
         }
