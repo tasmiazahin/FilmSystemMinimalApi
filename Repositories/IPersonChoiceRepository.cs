@@ -4,5 +4,6 @@ namespace FilmSystemMinimalApi.Repositories
 {
     public interface IPersonChoiceRepository : IRepositoryBase<PersonChoice>
     {
+
     }
 }

@@ -34,49 +34,29 @@ namespace FilmSystemMinimalApi
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
-            var summaries = new[]
-            {
-                "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-            };
-
-            app.MapGet("/weatherforecast", (HttpContext httpContext) =>
-            {
-                var forecast = Enumerable.Range(1, 5).Select(index =>
-                    new WeatherForecast
-                    {
-                        Date = DateTime.Now.AddDays(index),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = summaries[Random.Shared.Next(summaries.Length)]
-                    })
-                    .ToArray();
-                return forecast;
-            })
-            .WithName("GetWeatherForecast");
+            
 
             app.MapGet("api/person", () =>
             {
-                //var person = await context.Persons.ToListAsync();
-                //return person;
-
                 PersonRepository personRepo = new PersonRepository(new DataContext());
                 return personRepo.GetAll();
             })
             .WithName("GetPerson");
 
-            //app.MapGet("api/genre", async (DataContext context) =>
-            //{
-            //    var genre = await context.Genres.ToListAsync();
-            //    return genre;
-            //})
-            //.WithName("GetGenre");
+            app.MapGet("api/genre", () =>
+            {
+                GenreRepository genreRepo = new GenreRepository(new DataContext());
+                return genreRepo.GetAll();
 
-            //app.MapGet("api/personchoice", async (DataContext context) =>
-            //{
-            //    var personChoice = await context.PersonChoices.ToListAsync();
-            //    return personChoice;
-            //})
-            //.WithName("GetPersonChoice");
+            })
+            .WithName("GetGenre");
+
+            app.MapGet("api/personchoice", () =>
+            {
+                PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
+                return personchoiceRepo.GetAll();
+            })
+            .WithName("GetPersonChoice");
 
             app.Run();
         }
