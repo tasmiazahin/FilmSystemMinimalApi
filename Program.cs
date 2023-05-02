@@ -1,7 +1,9 @@
 using FilmSystemMinimalApi.Data;
 using FilmSystemMinimalApi.Model;
 using FilmSystemMinimalApi.Repositories;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FilmSystemMinimalApi
@@ -67,6 +69,7 @@ namespace FilmSystemMinimalApi
 
                 // SaveChanges does not available in PersonRepository 
                 dataContext.SaveChanges();
+                return Results.Created($"/api/person/{person.Id}", person);
             }).WithName("AddPerson"); ;
 
            
@@ -88,7 +91,8 @@ namespace FilmSystemMinimalApi
 
                 genreRepo.Create(genre);
                 dataContext.SaveChanges();
-            }).WithName("AddGenre"); 
+                return Results.Created($"/api/genre/{genre.Id}", genre);
+            }).WithName("AddGenre");
 
 
             // Get all record from PersonChoice table
@@ -129,7 +133,7 @@ namespace FilmSystemMinimalApi
             }).WithName("GetMovieLinkByPerdonId");
 
             // add a record in personchoice table which includes rating, movie link and genre and connected to a person.
-            app.MapPost("/personChoice", (PersonChoice personChoice) =>
+            app.MapPost("api/personChoice", (PersonChoice personChoice) =>
             {
                 DataContext dataContext = new DataContext();
                 PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(dataContext);
@@ -138,6 +142,7 @@ namespace FilmSystemMinimalApi
                 personchoiceRepo.Create(personChoice);
               
                 dataContext.SaveChanges();
+                return Results.Created($"/api/personChoice/{personChoice.Id}", personChoice);
             }).WithName("AddPersonChoice");
 
             app.Run();
