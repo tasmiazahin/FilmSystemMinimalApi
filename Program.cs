@@ -58,7 +58,7 @@ namespace FilmSystemMinimalApi
            .WithName("GetPersonByPageNumber");
 
             // Add a person
-            app.MapPost("/person", (Person person) =>
+            app.MapPost("api/person", (Person person) =>
             {
                 DataContext dataContext = new DataContext();
                 PersonRepository personRepo = new PersonRepository(dataContext);
@@ -81,7 +81,7 @@ namespace FilmSystemMinimalApi
 
 
             // Add genre 
-            app.MapPost("/genre", (Genre genre) =>
+            app.MapPost("api/genre", (Genre genre) =>
             {
                 DataContext dataContext = new DataContext();
                 GenreRepository genreRepo = new GenreRepository(dataContext);
