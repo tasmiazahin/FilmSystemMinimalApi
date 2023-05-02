@@ -81,6 +81,15 @@ namespace FilmSystemMinimalApi
             .WithName("GetPersonChoice");
 
 
+            // Get all of movies and genre attached to a person
+            app.MapGet("api/personchoice/{personid}", (int id) =>
+            {
+                PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
+                return personchoiceRepo.GetByCondition(pc=>pc.PersonId == id);
+
+            }).WithName("GetPersonChoiceByPerdonId");
+
+
             // Get list of genre connect to a person (Returns list of string )
             app.MapGet("api/personchoice/genre/{personid}", (int id) =>
             {
@@ -91,10 +100,8 @@ namespace FilmSystemMinimalApi
 
             }).WithName("GetGenreByPerdonId");
 
-            
-            // Get list of genre connect to a person (Returns list of string )
 
-            // get  download links of movies connected tp a person
+            // get  download links of movies connected to a person (Returns list of string )
             app.MapGet("api/personchoice/movie/{personid}", (int id) =>
             {
                 PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
