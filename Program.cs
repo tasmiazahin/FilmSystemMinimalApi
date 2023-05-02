@@ -31,8 +31,8 @@ namespace FilmSystemMinimalApi
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-            
 
+            // Get all person
             app.MapGet("api/person", () =>
             {
                 PersonRepository personRepo = new PersonRepository(new DataContext());
@@ -40,7 +40,7 @@ namespace FilmSystemMinimalApi
             })
             .WithName("GetPerson");
 
-
+            // Add a person
             app.MapPost("/person", (Person person) =>
             {
                 DataContext dataContext = new DataContext();
@@ -51,7 +51,7 @@ namespace FilmSystemMinimalApi
             }).WithName("AddPerson"); ;
 
            
-
+            // Get all Genre
              app.MapGet("api/genre", () =>
             {
                 GenreRepository genreRepo = new GenreRepository(new DataContext());
@@ -60,7 +60,9 @@ namespace FilmSystemMinimalApi
             })
             .WithName("GetGenre");
 
-            app.MapPost("/grnre", (Genre genre) =>
+
+            // Add genre 
+            app.MapPost("/genre", (Genre genre) =>
             {
                 DataContext dataContext = new DataContext();
                 GenreRepository genreRepo = new GenreRepository(dataContext);
@@ -70,8 +72,7 @@ namespace FilmSystemMinimalApi
             }).WithName("AddGenre"); 
 
 
-
-
+            // Get all record from PersonChoice table
             app.MapGet("api/personchoice", () =>
             {
                 PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
@@ -79,13 +80,21 @@ namespace FilmSystemMinimalApi
             })
             .WithName("GetPersonChoice");
 
+
+            // Get list of genre connect to a person (Returns list of string )
             app.MapGet("api/personchoice/genre/{personid}", (int id) =>
             {
                 PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
+
+                // make a distinct genre list
                return  personchoiceRepo.GetGenreByPersonId(id).Select(pc=>pc.Genre.Title).Distinct();
 
             }).WithName("GetGenreByPerdonId");
 
+            
+            // Get list of genre connect to a person (Returns list of string )
+
+            // get  download links of movies connected tp a person
             app.MapGet("api/personchoice/movie/{personid}", (int id) =>
             {
                 PersonChoiceRepository personchoiceRepo = new PersonChoiceRepository(new DataContext());
@@ -93,6 +102,7 @@ namespace FilmSystemMinimalApi
 
             }).WithName("GetMovieLinkByPerdonId");
 
+            // add a record in personchoice table which includes rating, movie link and genre and connected to a person.
             app.MapPost("/personChoice", (PersonChoice personChoice) =>
             {
                 DataContext dataContext = new DataContext();

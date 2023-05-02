@@ -11,6 +11,7 @@ namespace FilmSystemMinimalApi.Repositories
 
         }
 
+        // additional repository functions 
         public IEnumerable<PersonChoice> GetGenreByPersonId(int personId)
         {
             var context = new DataContext();
