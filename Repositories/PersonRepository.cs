@@ -15,5 +15,12 @@ namespace FilmSystemMinimalApi.Repositories
             var context = new DataContext();
             return context.Persons.Where(x => (x.FirstName + " " + x.LastName).Contains(searchText));
         }
+
+
+        public IEnumerable<Person> GetPersonByPageNumber(int pageNumber, int pageSize)
+        {
+            var context = new DataContext();
+            return context.Persons.Skip((pageNumber-1)*pageSize).Take(pageSize);
+        }
     }
 }

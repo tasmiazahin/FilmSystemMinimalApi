@@ -48,6 +48,15 @@ namespace FilmSystemMinimalApi
             })
            .WithName("GetPersonByName");
 
+
+            // get all people by page nuber 
+            app.MapGet("api/person/{pageNumber}", (int pageNumber) =>
+            {
+                PersonRepository personRepo = new PersonRepository(new DataContext());
+                return personRepo.GetPersonByPageNumber(pageNumber, 10);
+            })
+           .WithName("GetPersonByPageNumber");
+
             // Add a person
             app.MapPost("/person", (Person person) =>
             {
