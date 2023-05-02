@@ -40,6 +40,14 @@ namespace FilmSystemMinimalApi
             })
             .WithName("GetPerson");
 
+            // get all people that matches with first or last name
+            app.MapGet("api/person/search", (string searchtext) =>
+            {
+                PersonRepository personRepo = new PersonRepository(new DataContext());
+                return personRepo.SearchByName(searchtext);
+            })
+           .WithName("GetPersonByName");
+
             // Add a person
             app.MapPost("/person", (Person person) =>
             {
@@ -47,6 +55,8 @@ namespace FilmSystemMinimalApi
                 PersonRepository personRepo = new PersonRepository(dataContext);
 
                 personRepo.Create(person);
+
+                // SaveChanges does not available in PersonRepository 
                 dataContext.SaveChanges();
             }).WithName("AddPerson"); ;
 
